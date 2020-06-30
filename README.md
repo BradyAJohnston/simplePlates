@@ -13,17 +13,28 @@ devtools::install_github("bradyajohnston/simplePlates")
 For for generating concentration and contents data for arbitary sections of plates.
 
 ```r
-> create_plate_properties(LETTERS[1:3], 1:3, 500, "Normal")
+> simplePlates::create_plate_properties(LETTERS[1:3], 1:3, 500, "SampleA", direction = "horizontal")
   well row_let col_no sample_con well_contents
-1   A1       A      1        500        Normal
-2   A2       A      2        250        Normal
-3   A3       A      3        125        Normal
-4   B1       B      1        500        Normal
-5   B2       B      2        250        Normal
-6   B3       B      3        125        Normal
-7   C1       C      1        500        Normal
-8   C2       C      2        250        Normal
-9   C3       C      3        125        Normal
+1   A1       A      1        500       SampleA
+2   A2       A      2        250       SampleA
+3   A3       A      3        125       SampleA
+4   B1       B      1        500       SampleA
+5   B2       B      2        250       SampleA
+6   B3       B      3        125       SampleA
+7   C1       C      1        500       SampleA
+8   C2       C      2        250       SampleA
+9   C3       C      3        125       SampleA
+> simplePlates::create_plate_properties(LETTERS[1:3], 1:3, 500, "SampleA", direction = "vertical")
+  well row_let col_no sample_con well_contents
+1   A1       A      1        500       SampleA
+2   A2       A      2        500       SampleA
+3   A3       A      3        500       SampleA
+4   B1       B      1        250       SampleA
+5   B2       B      2        250       SampleA
+6   B3       B      3        250       SampleA
+7   C1       C      1        125       SampleA
+8   C2       C      2        125       SampleA
+9   C3       C      3        125       SampleA
 ```
 
 `plate_map()`
