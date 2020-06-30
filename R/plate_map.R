@@ -40,4 +40,3 @@ plate_map <- function(df, alpha_value, colour_value, plate_size = 96, dot_size=1
 
   return(the_plot)
 }
-
