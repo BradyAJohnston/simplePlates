@@ -8,13 +8,19 @@ devtools::install_github("bradyajohnston/simplePlates")
 ```
 
 ## Example use cases. 
-`create_plate_properties()`
+### `create_plate_properties()`
 
 For for generating concentration and contents data for arbitary sections of plates.
 
 ```r
-> simplePlates::create_plate_properties(LETTERS[1:3], 1:3, 500, "SampleA", direction = "horizontal")
-  well row_let col_no sample_con well_contents
+create_plate_properties(
+  row_range = LETTERS[1:3], 
+  column_range = 1:3, 
+  max_conc = 500, 
+  well_contents = "SampleA", 
+  direction = "horizontal"
+)
+   well row_let col_no sample_con well_contents
 1   A1       A      1        500       SampleA
 2   A2       A      2        250       SampleA
 3   A3       A      3        125       SampleA
@@ -24,7 +30,14 @@ For for generating concentration and contents data for arbitary sections of plat
 7   C1       C      1        500       SampleA
 8   C2       C      2        250       SampleA
 9   C3       C      3        125       SampleA
-> simplePlates::create_plate_properties(LETTERS[1:3], 1:3, 500, "SampleA", direction = "vertical")
+
+create_plate_properties(
+  row_range = LETTERS[1:3], 
+  column_range = 1:3, 
+  max_conc = 500, 
+  well_contents = "SampleA", 
+  direction = "vertical"
+)
   well row_let col_no sample_con well_contents
 1   A1       A      1        500       SampleA
 2   A2       A      2        500       SampleA
@@ -37,9 +50,9 @@ For for generating concentration and contents data for arbitary sections of plat
 9   C3       C      3        125       SampleA
 ```
 
-`plate_map()`
+### `plate_map()`
 
-Creating visual representation of a plate's contents.
+Creating a visual map for the contents of a given plate. Takes concentration, well contents to make map.
 
 ```r
 df1 <- create_plate_properties(LETTERS[1:4], 1:12, max_conc = 1000, well_contents = "SampleA")
