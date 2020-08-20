@@ -2,6 +2,8 @@
 
 Set of functions for working with data from plate-based assays.
 
+>"omg this is the best thing ever i love simplePlates" - Somayra
+
 ### Installation:
 ```r
 devtools::install_github("bradyajohnston/simplePlates")
