@@ -1,12 +1,12 @@
 Package: simplePlates
 Type: Package
-Title: Simple Functions For Wrangling Plate-Based Data.
-Version: 0.1.0
+Title: Collection of simple functions for working with plate-based data.
+Version: 0.1.1
 Author: Brady Johnston
-Maintainer: Brady Johnston <brady.johnston@me.com>
+Maintainer: Brady Johnston <brady.johnston@research.uwa.edu.au>
 Description: Some quick functions for generating concentration gradients across 96, 384 well plates. Also functions for generating plate maps.
     Use four spaces when indenting paragraphs within the Description.
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1

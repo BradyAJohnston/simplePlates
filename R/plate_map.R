@@ -20,11 +20,11 @@
 
 plate_map <- function(df, alpha_value, colour_value, plate_size = 96, dot_size=10){
    if(plate_size == 96){
-    df$row_let <- factor(x = df$row_let, ordered = T, levels = LETTERS[8:1])
+    df$rows <- factor(x = df$row_let, ordered = T, levels = LETTERS[8:1])
     }else if(plate_size == 384){
-    df$row_let <- factor(x = df$row_let, ordered = T, levels = LETTERS[16:1])
+    df$rows <- factor(x = df$row_let, ordered = T, levels = LETTERS[16:1])
     }else if(plate_size == 24){
-    df$row_let <- factor(x = df$row_let, ordered = T, levels = LETTERS[4:1])
+    df$rows <- factor(x = df$row_let, ordered = T, levels = LETTERS[4:1])
     }else{print("Unsupported plate size provided.")}
 
   the_plot <- ggplot(df, aes(x = col_no, y = row_let, alpha = sample_con, colour = well_contents)) +
@@ -40,4 +40,3 @@ plate_map <- function(df, alpha_value, colour_value, plate_size = 96, dot_size=1
 
   return(the_plot)
 }
-

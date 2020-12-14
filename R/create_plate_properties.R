@@ -16,51 +16,27 @@
 #' create_plate_properties(LETTERS[1:3], 1:3, 500, "vertical_values", direction = "vertical")
 #' create_plate_properties(LETTERS[1:3], 1:3, 500, "constant_values", constant_concentration = T)
 
-create_plate_properties <- function(row_range, column_range, max_conc, well_contents, direction = "horizontal", dil_factor = 0.5, constant_concentration = FALSE){
+create_plate_properties <-
+  function(row_range,
+           column_range,
+           well_contents,
+           max_conc,
+           direction = "horizontal",
+           dil_factor = 0.5,
+           constant_concentration = FALSE) {
 
+    if (constant_concentration == FALSE) {
 
-
-    if(constant_concentration == FALSE){
-    }else if(constant_concentration == TRUE){
+    } else if (constant_concentration == TRUE) {
       dil_factor = 1
-    }else {
+    } else {
       print("Error, constant_concentration must be either TRUE/FALSE")
       break
     }
 
 
-  if(direction =="horizontal"){
-    num_dil = length(column_range)
-
-  row_let <- c("A")
-  col_no <- c(1)
-  sample_con <- c(10)
-  sample_index <- c(1)
-
-  index <- 0
-
-  for(l in 1:length(row_range)){
-
-    conc <- rowfill_conc(max_conc, dil_factor = dil_factor, num_dil = num_dil)
-
-    for(i in column_range){
-      index <- index + 1
-
-      row_let[index] <- row_range[l]
-      col_no[index] <- i
-      sample_con[index] <- conc[i]
-    }
-  }
-
-  some_df <- data.frame(
-    well = paste(row_let, col_no, sep = ""),
-    row_let = row_let,
-    col_no = col_no,
-    sample_con = sample_con,
-    well_contents = well_contents
-  )
-  }else if(direction =="vertical"){
-    num_dil = length(row_range)
+    if (direction == "horizontal") {
+      num_dil = length(column_range)
 
       row_let <- c("A")
       col_no <- c(1)
@@ -69,11 +45,50 @@ create_plate_properties <- function(row_range, column_range, max_conc, well_cont
 
       index <- 0
 
-      for(l in 1:length(row_range)){
+      for (l in 1:length(row_range)) {
+        conc <-
+          rowfill_conc(max_conc, dil_factor = dil_factor, num_dil = num_dil)
 
-        conc <- rowfill_conc(max_conc, dil_factor = dil_factor, num_dil = num_dil)
+        for (i in column_range) {
+          index <- index + 1
 
-        for(i in column_range){
+          row_let[index] <- row_range[l]
+          col_no[index] <- i
+          if(is.na(max_conc)){
+
+          } else{
+          sample_con[index] <- conc[i]
+          }
+        }
+      }
+
+      some_df <- data.frame(
+        well = paste(row_let, col_no, sep = ""),
+        row_let = row_let,
+        col_no = col_no,
+        well_contents = well_contents
+      )
+      if(is.na(max_conc)){
+
+      } else{
+      some_df$sample_conc <- sample_con
+      }
+
+    } else if (direction == "vertical") {
+      num_dil = length(row_range)
+
+      row_let <- c("A")
+      col_no <- c(1)
+      sample_con <- c(10)
+      sample_index <- c(1)
+
+      index <- 0
+
+      for (l in 1:length(row_range)) {
+        conc <-
+          rowfill_conc(max_conc, dil_factor = dil_factor, num_dil = num_dil)
+
+        for (i in column_range) {
           index <- index + 1
 
           row_let[index] <- row_range[l]
@@ -89,10 +104,10 @@ create_plate_properties <- function(row_range, column_range, max_conc, well_cont
         sample_con = sample_con,
         well_contents = well_contents
       )
-  }else {
+    } else {
       print("Error, direction must be either 'vertical' or 'horizontal'.")
     }
 
 
-  return(some_df)
-}
+    return(some_df)
+  }

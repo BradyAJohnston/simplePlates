@@ -1,51 +1,191 @@
-# SimplePlates
+simplePlates
+================
 
-Set of functions for working with data from plate-based assays.
+A set of simple functions for working with plate-based data.
 
-### Installation:
-```r
-devtools::install_github("bradyajohnston/simplePlates")
+> “omg this is the best thing ever i love simplePlates” - Somayra, 2020
+
+### Installation
+
+``` r
+devtools::install_github("bradyajohnston/simpleplates")
 ```
 
-## Example use cases. 
-`create_plate_properties()`
+## Example use cases.
 
-For for generating concentration and contents data for arbitary sections of plates.
+### `make_plate()`
 
-```r
-> simplePlates::create_plate_properties(LETTERS[1:3], 1:3, 500, "SampleA", direction = "horizontal")
-  well row_let col_no sample_con well_contents
-1   A1       A      1        500       SampleA
-2   A2       A      2        250       SampleA
-3   A3       A      3        125       SampleA
-4   B1       B      1        500       SampleA
-5   B2       B      2        250       SampleA
-6   B3       B      3        125       SampleA
-7   C1       C      1        500       SampleA
-8   C2       C      2        250       SampleA
-9   C3       C      3        125       SampleA
-> simplePlates::create_plate_properties(LETTERS[1:3], 1:3, 500, "SampleA", direction = "vertical")
-  well row_let col_no sample_con well_contents
-1   A1       A      1        500       SampleA
-2   A2       A      2        500       SampleA
-3   A3       A      3        500       SampleA
-4   B1       B      1        250       SampleA
-5   B2       B      2        250       SampleA
-6   B3       B      3        250       SampleA
-7   C1       C      1        125       SampleA
-8   C2       C      2        125       SampleA
-9   C3       C      3        125       SampleA
+For quickly generating sample and concentration data for a plate, to
+later match with observed data. The rows can be either letters or a
+numeric verctor (*numbers must be &gt; 0 and &lt; 26*).
+
+``` r
+make_plate(
+  rows = LETTERS[1:3], 
+  cols = 1:3, 
+  sample = "foo"
+)
 ```
 
-`plate_map()`
+    ##   wells cols rows sample
+    ## 1    A1    1    A    foo
+    ## 2    A2    2    A    foo
+    ## 3    A3    3    A    foo
+    ## 4    B1    1    B    foo
+    ## 5    B2    2    B    foo
+    ## 6    B3    3    B    foo
+    ## 7    C1    1    C    foo
+    ## 8    C2    2    C    foo
+    ## 9    C3    3    C    foo
 
-Creating visual representation of a plate's contents.
-
-```r
-df1 <- create_plate_properties(LETTERS[1:4], 1:12, max_conc = 1000, well_contents = "SampleA")
-df2 <- create_plate_properties(LETTERS[5:8], 1:12, max_conc = 1000, well_contents = "SampleB")
-dfs <- rbind(df1, df2)
-plate_map(dfs, alpha_value = sample_con, colour_value = well_contents)
+``` r
+make_plate(
+  rows = 1:3, 
+  cols = 1:3, 
+  sample = "foo"
+)
 ```
 
-![alt text](https://i.imgur.com/waYPFtk.png "Title Text")
+    ##   wells cols rows sample
+    ## 1    A1    1    A    foo
+    ## 2    A2    2    A    foo
+    ## 3    A3    3    A    foo
+    ## 4    B1    1    B    foo
+    ## 5    B2    2    B    foo
+    ## 6    B3    3    B    foo
+    ## 7    C1    1    C    foo
+    ## 8    C2    2    C    foo
+    ## 9    C3    3    C    foo
+
+``` r
+make_plate(
+  rows = 1:3, 
+  cols = 1:3, 
+  sample = c("sampleA", "sampleB", "sampleC")
+)
+```
+
+    ##   wells cols rows  sample
+    ## 1    A1    1    A sampleA
+    ## 2    A2    2    A sampleB
+    ## 3    A3    3    A sampleC
+    ## 4    B1    1    B sampleA
+    ## 5    B2    2    B sampleB
+    ## 6    B3    3    B sampleC
+    ## 7    C1    1    C sampleA
+    ## 8    C2    2    C sampleB
+    ## 9    C3    3    C sampleC
+
+``` r
+make_plate(
+  rows = 1:3, 
+  cols = 1:3, 
+  sample = rep(c("sampleA", "sampleB", "sampleC"), each = 3)
+)
+```
+
+    ##   wells cols rows  sample
+    ## 1    A1    1    A sampleA
+    ## 2    A2    2    A sampleA
+    ## 3    A3    3    A sampleA
+    ## 4    B1    1    B sampleB
+    ## 5    B2    2    B sampleB
+    ## 6    B3    3    B sampleB
+    ## 7    C1    1    C sampleC
+    ## 8    C2    2    C sampleC
+    ## 9    C3    3    C sampleC
+
+`make_plate()` can also take concentration information, as well as
+perform dilution series\`.
+
+``` r
+make_plate(
+  rows = 1:3, 
+  cols = 1:3, 
+  sample = c("sampleA", "sampleB", "sampleC"), 
+  conc = 500, 
+  dil = 0.5, 
+  direction = "vertical"
+)
+```
+
+    ##   wells cols rows  sample conc
+    ## 1    A1    1    A sampleA  500
+    ## 2    A2    2    A sampleB  500
+    ## 3    A3    3    A sampleC  500
+    ## 4    B1    1    B sampleA  250
+    ## 5    B2    2    B sampleB  250
+    ## 6    B3    3    B sampleC  250
+    ## 7    C1    1    C sampleA  125
+    ## 8    C2    2    C sampleB  125
+    ## 9    C3    3    C sampleC  125
+
+``` r
+make_plate(
+  rows = 1:3, 
+  cols = 1:3, 
+  sample = rep(c("sampleA", "sampleB", "sampleC"), each = 3),
+  conc = 500, 
+  dil = 0.5, 
+  direction = "horizontal"
+)
+```
+
+    ##   wells cols rows  sample conc
+    ## 1    A1    1    A sampleA  500
+    ## 2    A2    2    A sampleA  250
+    ## 3    A3    3    A sampleA  125
+    ## 4    B1    1    B sampleB  500
+    ## 5    B2    2    B sampleB  250
+    ## 6    B3    3    B sampleB  125
+    ## 7    C1    1    C sampleC  500
+    ## 8    C2    2    C sampleC  250
+    ## 9    C3    3    C sampleC  125
+
+<!-- ### `plate_map()` -->
+<!-- Cretes a visual representation of a plate's contents. -->
+<!-- ```{r} -->
+<!-- df1 <- make_plate( -->
+<!--   rows = 1:8,  -->
+<!--   cols = 1:12,  -->
+<!--   sample = rep(c("sampleA", "sampleB", "sampleC"), each = 4), -->
+<!--   conc = 500,  -->
+<!--   dil = 0.5,  -->
+<!--   direction = "vertical" -->
+<!-- ) -->
+<!-- library(ggplot2) -->
+<!-- letter_numbers <- match(unique(df1$rows), LETTERS) -->
+<!-- df1$letter_numbers <- match(df1$rows, LETTERS) -->
+<!-- ggplot(df1, aes( -->
+<!--   x = cols,  -->
+<!--   y = letter_numbers, -->
+<!--   # shape = sample, -->
+<!--   fill = sample -->
+<!-- )) +  -->
+<!--   geom_raster(aes( -->
+<!--     xmin = min(cols), -->
+<!--     xmax = max(cols), -->
+<!--     ymin = min(letter_numbers), -->
+<!--     ymax = max(letter_numbers) -->
+<!--   ), alpha = 0.8) + -->
+<!--   geom_point(size = 8) + -->
+<!--   geom_line(aes( -->
+<!--     y = letter_numbers, -->
+<!--     x = cols, -->
+<!--     group = rows -->
+<!--   ), alpha = 0.5) +  -->
+<!--   geom_line(aes( -->
+<!--     y = letter_numbers,  -->
+<!--     x = cols,  -->
+<!--     group = cols -->
+<!--   ), alpha = 0.5) + -->
+<!--   scale_x_continuous(breaks = 1:12, position = "top") + -->
+<!--   scale_alpha(position = "bottom") + -->
+<!--   scale_y_reverse(breaks = letter_numbers, labels = LETTERS[letter_numbers]) + -->
+<!--   theme_linedraw(base_size = 15) + -->
+<!--   theme(panel.grid = element_blank(),  -->
+<!--         axis.title = element_blank(),  -->
+<!--         aspect.ratio = 8/12) + -->
+<!--   labs(alpha = "") + -->
+<!--   scale_colour_viridis_c(option = "B")  -->
+<!-- ``` -->

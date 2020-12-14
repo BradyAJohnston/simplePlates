@@ -1,0 +1,123 @@
+---
+title: "simplePlates"
+output: github_document
+---
+
+A set of simple functions for working with plate-based data.
+```{r echo = FALSE}
+library(simplePlates)
+```
+>"omg this is the best thing ever i love simplePlates" - Somayra, 2020
+
+### Installation
+```{r eval=FALSE}
+devtools::install_github("bradyajohnston/simpleplates")
+```
+
+## Example use cases.
+
+### `make_plate()`
+
+For quickly generating sample and concentration data for a plate, to later 
+match with observed data. The rows can be either letters or a numeric verctor (_numbers must be > 0 and < 26_).
+```{r}
+make_plate(
+  rows = LETTERS[1:3], 
+  cols = 1:3, 
+  sample = "foo"
+)
+
+make_plate(
+  rows = 1:3, 
+  cols = 1:3, 
+  sample = "foo"
+)
+
+make_plate(
+  rows = 1:3, 
+  cols = 1:3, 
+  sample = c("sampleA", "sampleB", "sampleC")
+)
+
+make_plate(
+  rows = 1:3, 
+  cols = 1:3, 
+  sample = rep(c("sampleA", "sampleB", "sampleC"), each = 3)
+)
+```
+
+`make_plate()` can also take concentration information, as well as perform dilution series`.
+
+```{r}
+make_plate(
+  rows = 1:3, 
+  cols = 1:3, 
+  sample = c("sampleA", "sampleB", "sampleC"), 
+  conc = 500, 
+  dil = 0.5, 
+  direction = "vertical"
+)
+
+make_plate(
+  rows = 1:3, 
+  cols = 1:3, 
+  sample = rep(c("sampleA", "sampleB", "sampleC"), each = 3),
+  conc = 500, 
+  dil = 0.5, 
+  direction = "horizontal"
+)
+
+```
+
+<!-- ### `plate_map()` -->
+
+<!-- Cretes a visual representation of a plate's contents. -->
+<!-- ```{r} -->
+<!-- df1 <- make_plate( -->
+<!--   rows = 1:8,  -->
+<!--   cols = 1:12,  -->
+<!--   sample = rep(c("sampleA", "sampleB", "sampleC"), each = 4), -->
+<!--   conc = 500,  -->
+<!--   dil = 0.5,  -->
+<!--   direction = "vertical" -->
+<!-- ) -->
+
+<!-- library(ggplot2) -->
+
+<!-- letter_numbers <- match(unique(df1$rows), LETTERS) -->
+<!-- df1$letter_numbers <- match(df1$rows, LETTERS) -->
+
+<!-- ggplot(df1, aes( -->
+<!--   x = cols,  -->
+<!--   y = letter_numbers, -->
+<!--   # shape = sample, -->
+<!--   fill = sample -->
+<!-- )) +  -->
+<!--   geom_raster(aes( -->
+<!--     xmin = min(cols), -->
+<!--     xmax = max(cols), -->
+<!--     ymin = min(letter_numbers), -->
+<!--     ymax = max(letter_numbers) -->
+<!--   ), alpha = 0.8) + -->
+<!--   geom_point(size = 8) + -->
+<!--   geom_line(aes( -->
+<!--     y = letter_numbers, -->
+<!--     x = cols, -->
+<!--     group = rows -->
+<!--   ), alpha = 0.5) +  -->
+<!--   geom_line(aes( -->
+<!--     y = letter_numbers,  -->
+<!--     x = cols,  -->
+<!--     group = cols -->
+<!--   ), alpha = 0.5) + -->
+<!--   scale_x_continuous(breaks = 1:12, position = "top") + -->
+<!--   scale_alpha(position = "bottom") + -->
+<!--   scale_y_reverse(breaks = letter_numbers, labels = LETTERS[letter_numbers]) + -->
+<!--   theme_linedraw(base_size = 15) + -->
+<!--   theme(panel.grid = element_blank(),  -->
+<!--         axis.title = element_blank(),  -->
+<!--         aspect.ratio = 8/12) + -->
+<!--   labs(alpha = "") + -->
+<!--   scale_colour_viridis_c(option = "B")  -->
+<!-- ``` -->
+

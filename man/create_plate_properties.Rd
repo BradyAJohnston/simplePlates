@@ -7,8 +7,8 @@
 create_plate_properties(
   row_range,
   column_range,
-  max_conc,
   well_contents,
+  max_conc,
   direction = "horizontal",
   dil_factor = 0.5,
   constant_concentration = FALSE
@@ -19,9 +19,9 @@ create_plate_properties(
 
 \item{column_range}{Vector of numbers to generate values for (e.g. 1:3)}
 
-\item{max_conc}{Maximum concentration of dilution series for values.}
-
 \item{well_contents}{String for label of what is in the well (e.g. "Sample1")}
+
+\item{max_conc}{Maximum concentration of dilution series for values.}
 
 \item{direction}{String either "horizontal" (default) or "vertical". "horizontal" makes dilution series go across numbered colums, "vertical" makes diultion series go down the letterd rows.}
 
