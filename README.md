@@ -142,50 +142,40 @@ make_plate(
     ## 8    C2    2    C sampleC  250
     ## 9    C3    3    C sampleC  125
 
-<!-- ### `plate_map()` -->
-<!-- Cretes a visual representation of a plate's contents. -->
-<!-- ```{r} -->
-<!-- df1 <- make_plate( -->
-<!--   rows = 1:8,  -->
-<!--   cols = 1:12,  -->
-<!--   sample = rep(c("sampleA", "sampleB", "sampleC"), each = 4), -->
-<!--   conc = 500,  -->
-<!--   dil = 0.5,  -->
-<!--   direction = "vertical" -->
-<!-- ) -->
-<!-- library(ggplot2) -->
-<!-- letter_numbers <- match(unique(df1$rows), LETTERS) -->
-<!-- df1$letter_numbers <- match(df1$rows, LETTERS) -->
-<!-- ggplot(df1, aes( -->
-<!--   x = cols,  -->
-<!--   y = letter_numbers, -->
-<!--   # shape = sample, -->
-<!--   fill = sample -->
-<!-- )) +  -->
-<!--   geom_raster(aes( -->
-<!--     xmin = min(cols), -->
-<!--     xmax = max(cols), -->
-<!--     ymin = min(letter_numbers), -->
-<!--     ymax = max(letter_numbers) -->
-<!--   ), alpha = 0.8) + -->
-<!--   geom_point(size = 8) + -->
-<!--   geom_line(aes( -->
-<!--     y = letter_numbers, -->
-<!--     x = cols, -->
-<!--     group = rows -->
-<!--   ), alpha = 0.5) +  -->
-<!--   geom_line(aes( -->
-<!--     y = letter_numbers,  -->
-<!--     x = cols,  -->
-<!--     group = cols -->
-<!--   ), alpha = 0.5) + -->
-<!--   scale_x_continuous(breaks = 1:12, position = "top") + -->
-<!--   scale_alpha(position = "bottom") + -->
-<!--   scale_y_reverse(breaks = letter_numbers, labels = LETTERS[letter_numbers]) + -->
-<!--   theme_linedraw(base_size = 15) + -->
-<!--   theme(panel.grid = element_blank(),  -->
-<!--         axis.title = element_blank(),  -->
-<!--         aspect.ratio = 8/12) + -->
-<!--   labs(alpha = "") + -->
-<!--   scale_colour_viridis_c(option = "B")  -->
-<!-- ``` -->
+### `plate_map()`
+
+Cretes a visual representation of a plate’s contents.
+
+``` r
+df1 <- make_plate(
+  rows = 1:8,
+  cols = 1:12,
+  sample = rep(c("sampleA", "sampleB", "sampleC"), each = 4),
+  conc = 500,
+  dil = 0.5,
+  direction = "vertical"
+)
+
+library(ggplot2)
+
+ggplot(df1, aes(
+  x = cols,
+  y = match(rows, LETTERS),
+  colour = sample
+)) +
+  geom_point(size = 8) +
+  scale_x_continuous(breaks = 1:12, 
+                     position = "top", 
+                     expand = c(0.05,0.05)) +
+  scale_y_reverse(breaks = 1:12, 
+                  labels = LETTERS[1:12],
+                  expand = c(0.05,0.05)) +
+  theme_linedraw(base_size = 15) +
+  theme(panel.grid = element_blank(),
+        axis.title = element_blank(),
+        aspect.ratio = 8/12, 
+        legend.position = "bottom") + 
+  labs(colour = "Sample")
+```
+
+![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
