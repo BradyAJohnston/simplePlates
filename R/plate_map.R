@@ -18,25 +18,36 @@
 #' plate_map(df = df, alpha_value = sample_con, colour_value = well_contents)
 
 
-plate_map <- function(df, alpha_value, colour_value, plate_size = 96, dot_size=10){
-   if(plate_size == 96){
-    df$rows <- factor(x = df$row_let, ordered = T, levels = LETTERS[8:1])
-    }else if(plate_size == 384){
-    df$rows <- factor(x = df$row_let, ordered = T, levels = LETTERS[16:1])
-    }else if(plate_size == 24){
-    df$rows <- factor(x = df$row_let, ordered = T, levels = LETTERS[4:1])
-    }else{print("Unsupported plate size provided.")}
+plate_map <- function(df, alpha_value, colour_value){
 
-  the_plot <- ggplot(df, aes(x = col_no, y = row_let, alpha = sample_con, colour = well_contents)) +
+  the_plot <-
+    ggplot(df,
+           aes(
+             x = col_no,
+             y = row_let,
+             alpha = sample_con,
+             colour = well_contents
+           )) +
     geom_point(size = dot_size) +
     scale_x_continuous(breaks = unique(df$col_no), position = "top") +
     # scale_y_discrete(trans = "reverse")
-    theme(aspect.ratio = 8/12,
+    theme(
+      aspect.ratio = 8 / 12,
       axis.ticks = element_blank(),
       plot.background = element_blank(),
-      panel.background = element_rect(fill = "transparent", colour = "black", size = 2),
-      panel.grid = element_blank()) +
-    labs(x = "", y = "", colour = "Sample", alpha = "Concentration")
+      panel.background = element_rect(
+        fill = "transparent",
+        colour = "black",
+        size = 2
+      ),
+      panel.grid = element_blank()
+    ) +
+    labs(
+      x = "",
+      y = "",
+      colour = "Sample",
+      alpha = "Concentration"
+    )
 
   return(the_plot)
 }
