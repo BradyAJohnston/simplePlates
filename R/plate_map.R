@@ -1,35 +1,47 @@
 #' Plate map.
 #'
 #' Generates visual plate map from inputted plate properties.
-#' @param row_range Vector of letters to generate values for (e.g LETTERS[1:3])
-#' @param column_range Vector of numbers to generate values for (e.g. 1:3)
-#' @param max_conc Maximum concentration of dilution series for values.
-#' @param well_contents String for label of what is in the well (e.g. "Sample1")
-#' @param dil_factor Dilution factor for generating dilution series. Default = 0.5.
-#' @param constant_concentration TRUE/FALSE. TRUE = only 1 concentration for all values. FALSE = generating dilution series.
-#' @param direction String either "horizontal" (default) or "vertical". "horizontal" makes dilution series go across numbered colums, "vertical" makes diultion series go down the letterd rows.
-#' @keywords plate, dilution, concentrations
+#' @param df Dataframe that contains plate values to be plotted.
+#' @param cols Column of dataframe that contain column values (eg. 1-12)
+#' @param rows Column of dataframe that contains row values (eg A-H)
+#' @param alpha Column to control alpha value (can be blank).
+#' @param colour Column to control colour value (can be blank).
+
+#' @keywords plate, dilution, concentrations, platemap, map,
 #' @export
 #' @examples
 #' # Requires ggplot2
 #'
-#' df <- create_plate_properties(LETTERS[1:8], 1:12, max_conc = 1000, well_contents = "SampleA")
+#' df <- make_plate(1:8, 1:12, rep( c("sample1", "sample2", "sample3")))
 #' head(df)
-#' plate_map(df = df, alpha_value = sample_con, colour_value = well_contents)
+#' plate_map(df, cols = "cols", rows = "rows", colour = "sample")
 
+plate_map <- function(df,
+                      cols,
+                      rows,
+                      alpha = NULL,
+                      colour = NULL,
+                      dot_size = 8) {
 
-plate_map <- function(df, alpha_value, colour_value){
+  mapping <- aes(
+    x = .data[[cols]],
+    y = .data[[rows]],
+    alpha = .data[[alpha]],
+    colour = .data[[colour]]
+  )
+
+  if(is.null(alpha)) {
+    mapping$alpha <- NULL
+  }
+  if(is.null(colour)) {
+    mapping$colour <- NULL
+  }
 
   the_plot <-
-    ggplot(df,
-           aes(
-             x = col_no,
-             y = row_let,
-             alpha = sample_con,
-             colour = well_contents
-           )) +
+    ggplot(data = df,
+           mapping = mapping) +
     geom_point(size = dot_size) +
-    scale_x_continuous(breaks = unique(df$col_no), position = "top") +
+    scale_x_continuous(position = "top",  breaks = 1:24) +
     # scale_y_discrete(trans = "reverse")
     theme(
       aspect.ratio = 8 / 12,
@@ -49,5 +61,5 @@ plate_map <- function(df, alpha_value, colour_value){
       alpha = "Concentration"
     )
 
-  return(the_plot)
+  the_plot
 }

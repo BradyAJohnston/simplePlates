@@ -4,22 +4,18 @@
 \alias{plate_map}
 \title{Plate map.}
 \usage{
-plate_map(df, alpha_value, colour_value, plate_size = 96, dot_size = 10)
+plate_map(df, cols, rows, alpha = NULL, colour = NULL, dot_size = 8)
 }
 \arguments{
-\item{row_range}{Vector of letters to generate values for (e.g LETTERS[1:3])}
+\item{df}{Dataframe that contains plate values to be plotted.}
 
-\item{column_range}{Vector of numbers to generate values for (e.g. 1:3)}
+\item{cols}{Column of dataframe that contain column values (eg. 1-12)}
 
-\item{max_conc}{Maximum concentration of dilution series for values.}
+\item{rows}{Column of dataframe that contains row values (eg A-H)}
 
-\item{well_contents}{String for label of what is in the well (e.g. "Sample1")}
+\item{alpha}{Column to control alpha value (can be blank).}
 
-\item{dil_factor}{Dilution factor for generating dilution series. Default = 0.5.}
-
-\item{constant_concentration}{TRUE/FALSE. TRUE = only 1 concentration for all values. FALSE = generating dilution series.}
-
-\item{direction}{String either "horizontal" (default) or "vertical". "horizontal" makes dilution series go across numbered colums, "vertical" makes diultion series go down the letterd rows.}
+\item{colour}{Column to control colour value (can be blank).}
 }
 \description{
 Generates visual plate map from inputted plate properties.
@@ -27,10 +23,12 @@ Generates visual plate map from inputted plate properties.
 \examples{
 # Requires ggplot2
 
-df <- create_plate_properties(LETTERS[1:8], 1:12, max_conc = 1000, well_contents = "SampleA")
+df <- make_plate(1:8, 1:12, rep( c("sample1", "sample2", "sample3")))
 head(df)
-plate_map(df = df, alpha_value = sample_con, colour_value = well_contents)
+plate_map(df, cols = "cols", rows = "rows", colour = "sample")
 }
-\keyword{concentrations}
+\keyword{concentrations,}
 \keyword{dilution,}
+\keyword{map,}
 \keyword{plate,}
+\keyword{platemap,}

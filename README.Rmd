@@ -84,23 +84,10 @@ df1 <- make_plate(
 
 library(ggplot2)
 
-ggplot(df1, aes(
-  x = cols,
-  y = match(rows, LETTERS),
-  colour = sample
-)) +
-  geom_point(size = 8) +
-  scale_x_continuous(breaks = 1:12, 
-                     position = "top", 
-                     expand = c(0.05,0.05)) +
-  scale_y_reverse(breaks = 1:12, 
-                  labels = LETTERS[1:12],
-                  expand = c(0.05,0.05)) +
-  theme_linedraw(base_size = 15) +
-  theme(panel.grid = element_blank(),
-        axis.title = element_blank(),
-        aspect.ratio = 8/12, 
-        legend.position = "bottom") + 
-  labs(colour = "Sample")
+plate_map(df1, 
+          cols = "cols", 
+          rows = "rows", 
+          colour = "sample") + 
+  theme(legend.position = "bottom")
 ```
 
